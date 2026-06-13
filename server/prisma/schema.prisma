@@ -1,0 +1,47 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Product {
+  id          String   @id @default(cuid())
+  name        String
+  description String   @default("")
+  price       Float
+  category    String
+  image       String   @default("")
+  colors      String   @default("") // Comma-separated list
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Order {
+  id           String   @id @default(cuid())
+  items        String   // JSON string of cart items
+  total        Float
+  status       String   @default("pending")
+  customerName String   @default("Website Customer")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Newsletter {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  createdAt DateTime @default(now())
+}
+
+model Setting {
+  id            String @id @default("shop-settings")
+  whatsapp      String @default("233552850088")
+  promoMessage  String @default("FREE DELIVERY IN ACCRA ON ALL ORDERS OVER ₵500!")
+  shopName      String @default("GIRLS BOUTIQUE GH")
+  updatedAt     DateTime @updatedAt
+}
