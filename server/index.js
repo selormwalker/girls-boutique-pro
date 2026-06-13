@@ -13,6 +13,11 @@ app.use(cors());
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
+// Root Route
+app.get('/', (req, res) => {
+  res.json({ message: 'Girls Boutique Pro API is running perfectly.' });
+});
+
 cloudinary.config({
   cloudinary_url: process.env.CLOUDINARY_URL
 });
