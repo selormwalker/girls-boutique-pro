@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import axios from 'axios';
 import { API_URL } from '../apiConfig';
+import type { Product } from '../types';
 import { 
   Trash2, Edit, LogOut, Package, ShoppingBag, BarChart3, Mail, Upload, CheckCircle, Clock, Truck, AlertTriangle, X, ShieldAlert
 } from 'lucide-react';
