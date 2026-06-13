@@ -104,11 +104,11 @@ const AdminDashboard: React.FC = () => {
   const fetchData = useCallback(async () => {
     try {
       const [prodRes, orderRes, analRes, subRes, setRes] = await Promise.all([
-        axios.get('http://localhost:5000/api/products'),
-        axios.get('http://localhost:5000/api/orders', config),
-        axios.get('http://localhost:5000/api/analytics', config),
-        axios.get('http://localhost:5000/api/newsletter', config),
-        axios.get('http://localhost:5000/api/settings')
+        axios.get(`${API_URL}/products`),
+        axios.get(`${API_URL}/orders`, config),
+        axios.get(`${API_URL}/analytics`, config),
+        axios.get(`${API_URL}/newsletter`, config),
+        axios.get(`${API_URL}/settings`)
       ]);
       setProducts(prodRes.data);
       setOrders(orderRes.data);
@@ -139,16 +139,16 @@ const AdminDashboard: React.FC = () => {
     const payload = { ...formData, image: imageBase64 };
     try {
       if (editingId) {
-        await axios.put(`http://localhost:5000/api/products/${editingId}`, payload, config);
+        await axios.put(`${API_URL}/products/${editingId}`, payload, config);
         showToast('Piece updated in cloud');
       } else {
-        await axios.post('http://localhost:5000/api/products', payload, config);
+        await axios.post(`${API_URL}/products`, payload, config);
         showToast('New arrival live!');
       }
       setFormData({ name: '', description: '', price: '', category: 'Ready-to-wear', colors: '' });
       setImageBase64(null); setPreviewUrl(null); setEditingId(null);
       
-      const prodRes = await axios.get('http://localhost:5000/api/products');
+      const prodRes = await axios.get(`${API_URL}/products`);
       setProducts(prodRes.data);
     } catch { 
       showToast('Action failed', 'error');
@@ -169,9 +169,9 @@ const AdminDashboard: React.FC = () => {
 
   const updateOrderStatus = async (id: string, status: string) => {
     try {
-      await axios.put(`http://localhost:5000/api/orders/${id}`, { status }, config);
+      await axios.put(`${API_URL}/orders/${id}`, { status }, config);
       showToast(`Marked as ${status}`);
-      const ordRes = await axios.get('http://localhost:5000/api/orders', config);
+      const ordRes = await axios.get(`${API_URL}/orders`, config);
       setOrders(ordRes.data);
     } catch { showToast('Update failed', 'error'); }
   };
@@ -179,7 +179,7 @@ const AdminDashboard: React.FC = () => {
   const executeSaveSettings = async () => {
     closeConfirm();
     try {
-      await axios.put('http://localhost:5000/api/settings', settings, config);
+      await axios.put(`${API_URL}/settings`, settings, config);
       showToast('Configurations synced');
     } catch { showToast('Sync failed', 'error'); }
   };
@@ -198,9 +198,9 @@ const AdminDashboard: React.FC = () => {
   const executeDelete = async (id: string) => {
     closeConfirm();
     try {
-      await axios.delete(`http://localhost:5000/api/products/${id}`, config);
+      await axios.delete(`${API_URL}/products/${id}`, config);
       showToast('Piece removed permanently');
-      const prodRes = await axios.get('http://localhost:5000/api/products');
+      const prodRes = await axios.get(`${API_URL}/products`);
       setProducts(prodRes.data);
     } catch { showToast('Delete failed', 'error'); }
   };
@@ -336,7 +336,7 @@ const AdminDashboard: React.FC = () => {
             <motion.div key="ord" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="bg-white rounded-3xl border border-brand-light shadow-sm overflow-hidden text-brand-dark">
               <table className="w-full text-left">
                 <thead className="bg-brand-light text-brand-dark font-black">
-                  <tr><th className="p-6 text-[10px] tracking-widest uppercase">Identity</th><th className="p-6 text-[10px] tracking-widest uppercase">Total</th><th className="p-6 text-[10px] tracking-widest uppercase">Status</th><th className="p-6 text-[10px] tracking-widest uppercase text-right">Update</th></tr>
+                  <tr><th className="p-6 text-[10px] tracking-widest uppercase">Identity</th><th className="p-6 text-[10px] font-black tracking-widest uppercase">Total</th><th className="p-6 text-[10px] font-black tracking-widest uppercase">Status</th><th className="p-6 text-[10px] font-black tracking-widest uppercase text-right">Update</th></tr>
                 </thead>
                 <tbody className="divide-y divide-zinc-100">
                   {orders.length === 0 ? (

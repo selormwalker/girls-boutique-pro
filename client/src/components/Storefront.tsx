@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { ShoppingBag, Heart, CheckCircle2, X, Search } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import axios from 'axios';
+import { ShoppingBag, Heart, CheckCircle2, X, Search, Instagram, MessageCircle } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import type { Product, CartItem } from '../types';
 import { fetchProducts } from '../services/api';
 import { API_URL } from '../apiConfig';
@@ -24,7 +24,7 @@ const Storefront: React.FC = () => {
       try {
         const [prodRes, setRes] = await Promise.all([
           fetchProducts(),
-          axios.get('http://localhost:5000/api/settings')
+          axios.get(`${API_URL}/settings`)
         ]);
         setProducts(Array.isArray(prodRes) ? prodRes : []);
         if (setRes.data && typeof setRes.data === 'object') {
@@ -77,7 +77,7 @@ const Storefront: React.FC = () => {
   const handleCheckout = async () => {
     const totalVal = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
     try {
-      await axios.post('http://localhost:5000/api/orders', { items: cart, total: totalVal });
+      await axios.post(`${API_URL}/orders`, { items: cart, total: totalVal });
     } catch { console.error("Order tracking failed"); }
 
     const details = cart.map(item => `- ${item.name} (x${item.quantity})`).join('\n');
@@ -92,7 +92,7 @@ const Storefront: React.FC = () => {
     if (!emailInput) return;
     const email = emailInput.value;
     try {
-      await axios.post('http://localhost:5000/api/newsletter', { email });
+      await axios.post(`${API_URL}/newsletter`, { email });
       setToast("Welcome to the circle!");
       form.reset();
     } catch { setToast("Error joining"); }
@@ -221,6 +221,7 @@ const Storefront: React.FC = () => {
         </div>
         <p className="text-brand-zinc text-[10px] font-bold tracking-[0.3em]">© 2026 {settings.shopName}</p>
       </footer>
+
 
       {/* Bag Drawer */}
       <AnimatePresence>
