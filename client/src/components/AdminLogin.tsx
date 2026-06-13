@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { API_URL } from '../apiConfig';
 
 const AdminLogin: React.FC = () => {
   const [password, setPassword] = useState('');
@@ -11,7 +12,7 @@ const AdminLogin: React.FC = () => {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/api/admin/login', { password });
+      const response = await axios.post(`${API_URL}/admin/login`, { password });
       localStorage.setItem('adminToken', response.data.token);
       navigate('/admin/dashboard');
     } catch {

@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios';
 import type { Product, CartItem } from '../types';
 import { fetchProducts } from '../services/api';
+import { API_URL } from '../apiConfig';
 
 const Storefront: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
