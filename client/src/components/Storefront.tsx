@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
-import { ShoppingBag, Heart, CheckCircle2, X, Search, Instagram, MessageCircle } from 'lucide-react';
+import { ShoppingBag, Heart, CheckCircle2, X, Search } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { Product, CartItem } from '../types';
 import { fetchProducts } from '../services/api';
